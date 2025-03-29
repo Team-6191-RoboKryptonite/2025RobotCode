@@ -140,7 +140,12 @@ public final class Constants {
         public static final double VERTICAL_MAX_SPEED = -0.2;
         public static final double HORIZONTAL_MAX_SPEED = 0.4;
         public static final boolean gyroField = false;
-      }
+    }
+    public static final class intake_shooter{
+        public static final int photoSensorPort = 8;
+        public static final int coralMotorPort = 12;
+        public static final int spinMotor = 13; 
+    }
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
         public static final double kMaxSpeedMetersPerSecond = 6.0;
         public static final double kMaxAccelerationMetersPerSecondSquared = 1;

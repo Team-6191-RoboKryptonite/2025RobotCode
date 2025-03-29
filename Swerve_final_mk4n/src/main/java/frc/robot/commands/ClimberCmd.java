@@ -15,7 +15,7 @@ public class ClimberCmd extends Command {
     @Override
     public void initialize() {
         double point = climber.getEncoder();
-        while (Math.abs(point - setpoint) > 0.2) {
+        while (Math.abs(point - setpoint) > 0.5) {
             point = climber.getEncoder();
             double speed = climber.getSpeed(point, setpoint);
             climber.setClimberSpeed(speed);}
@@ -24,20 +24,15 @@ public class ClimberCmd extends Command {
 
     @Override
     public void execute() {
-        double point = climber.getEncoder();
-        while (Math.abs(point - setpoint) > 0.2) {
-            point = climber.getEncoder();
-            double speed = climber.getSpeed(point, setpoint);
-            climber.setClimberSpeed(speed);}
-        end(isFinished());
     }
     
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        climber.setClimberSpeed(0);
+    }
     
     @Override
     public boolean isFinished() {
-        climber.setClimberSpeed(0);
         return true;
     }
 }

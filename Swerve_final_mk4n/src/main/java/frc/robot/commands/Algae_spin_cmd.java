@@ -19,7 +19,7 @@ public class Algae_spin_cmd extends Command {
     public void execute(){
         double point = Intake.getAlgaeEncoder();
         SmartDashboard.putNumber("Algae2", Intake.getAlgaeEncoder());
-        while (Math.abs(point - target_point) > 0.5) {
+        while (Math.abs(point - target_point) > 0.3) {
             point = Intake.getAlgaeEncoder();
             double speed = Intake.getAlgaeSpeed(point, target_point);
             Intake.setAlgaeSpeed(speed);

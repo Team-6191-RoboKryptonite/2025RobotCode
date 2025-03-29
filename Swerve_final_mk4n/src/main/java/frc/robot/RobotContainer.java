@@ -38,7 +38,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
-    //private final Joystick driver2 = new Joystick(1);
+    private final Joystick driver2 = new Joystick(1);
 
     private final SendableChooser<Command> autoChooser;
 
@@ -50,20 +50,21 @@ public class RobotContainer {
 
     /* Driver Buttons */
     // private final JoystickButton bottom = new JoystickButton(driver, 1);
-    private final JoystickButton middle1 = new JoystickButton(driver, 6);
+    private final JoystickButton middle1 = new JoystickButton(driver2, 1);
     // private final JoystickButton middle2 = new JoystickButton(driver, 3);
-    private final JoystickButton top = new JoystickButton(driver, 2);
+    private final JoystickButton top = new JoystickButton(driver2, 4);
     // private final JoystickButton shooter = new JoystickButton(driver, 2);
     // private final JoystickButton intake = new JoystickButton(driver, 3);
-    //private final JoystickButton climberup = new JoystickButton(driver, 5);
-    //private final JoystickButton climberdown = new JoystickButton(driver, 6);
+    private final JoystickButton climberup = new JoystickButton(driver2, 3);
+    private final JoystickButton climberdown = new JoystickButton(driver2, 2);
     // private final JoystickButton algae_intake1 = new JoystickButton(driver, 5);
     // private final JoystickButton algae_intake2 = new JoystickButton(driver2, 6);
     // private final JoystickButton algae_intake3 = new JoystickButton(driver2, 5);
     // private final JoystickButton m_button5 = new JoystickButton(driver,5);
     // private final JoystickButton m_button8 = new JoystickButton(driver,8);
-    private final JoystickButton coral_intake = new JoystickButton(driver, 1);
-    private final JoystickButton coral_shooter = new JoystickButton(driver, 3);
+    private final JoystickButton coral_intake = new JoystickButton(driver, 5);
+    private final JoystickButton coral_shooter = new JoystickButton(driver, 6);
+ 
     // private final JoystickButton algae_shooter1 = new JoystickButton(driver2, 4);
     // private final JoystickButton algae_shooter2 = new JoystickButton(driver2, 1);
     private final JoystickButton limelightButton = new JoystickButton(driver,4);
@@ -84,14 +85,14 @@ public class RobotContainer {
         //mlift.setDefaultCommand(new Teleop(mlift, intake_shooter));
         //intake_shooter.setDefaultCommand(new Teleop(mlift, intake_shooter));
 
-        intake_shooter.setDefaultCommand(new Algae_spin_cmd(intake_shooter, 6));
+        // intake_shooter.setDefaultCommand(new Algae_spin_cmd(intake_shooter, 6));
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
                 () -> driver.getRawAxis(0), 
                 () -> -driver.getRawAxis(1), 
                 () -> -driver.getRawAxis(4), 
-                () -> false
+                () -> true
             )
         );
         //mlift.setDefaultCommand(new LiftTeleop(mlift));
@@ -110,7 +111,13 @@ public class RobotContainer {
         configureButtonBindings();
         // NamedCommands.registerCommand("Auto1", autoCmd);
         // NamedCommands.registerCommand("intake", coral_intake_cmd);
-        NamedCommands.registerCommand("shoot", new Coral_shoot_cmd(intake_shooter, 0.3));
+        NamedCommands.registerCommand("shoot", new InstantCommand(() -> intake_shooter.setSpeed(-0.2)));
+        NamedCommands.registerCommand("intake", new InstantCommand(() -> intake_shooter.setSpeed(-0.1)));
+        NamedCommands.registerCommand("shoot_stop", new InstantCommand(() -> intake_shooter.setSpeed(0)));
+        NamedCommands.registerCommand("up", new InstantCommand(() -> mlift.setSpeed(0.6)));
+        NamedCommands.registerCommand("down", new InstantCommand(() -> mlift.setSpeed(-0.6)));
+        NamedCommands.registerCommand("lift_stop", new InstantCommand(() -> mlift.setSpeed(0)));
+
         autoChooser = AutoBuilder.buildAutoChooser();
         // NamedCommands.registerCommand("stop", new Coral_shoot_cmd(intake_shooter, 0));
         // NamedCommands.registerCommand("shooter", new LiftCmd(mlift, 0).andThen(new Coral_shoot_cmd(intake_shooter, 0.3)).andThen(new LiftCmd(mlift, 0)));
@@ -126,7 +133,7 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        top.onTrue(new LiftCmd(mlift, 1.1).andThen(new Coral_shoot_cmd(intake_shooter, -0.2)).andThen(new LiftCmd(mlift, 0.08)));
+        top.onTrue(new LiftCmd(mlift, 1.2).andThen(new Coral_shoot_cmd(intake_shooter, -0.2)).andThen(new LiftCmd(mlift, 0.08)));
         middle1.onTrue(new LiftCmd(mlift, 3).andThen(new Coral_shoot_cmd(intake_shooter, -0.2)).andThen(new LiftCmd(mlift, 0.1)));
         //middle2.onTrue(new LiftCmd(mlift, 1.1).andThen(new Coral_shoot_cmd(intake_shooter, -0.2)).andThen(new LiftCmd(mlift, 0.3)));
         // bottom.onTrue(new LiftCmd(mlift, 0.1).andThen(new Coral_shoot_cmd(intake_shooter, -0.2)));
@@ -134,11 +141,12 @@ public class RobotContainer {
         coral_intake.whileTrue(new Coral_intake_cmd(intake_shooter,-0.1));
         coral_intake.whileFalse(new Coral_intake_cmd(intake_shooter,0));
         coral_shooter.onTrue(new Coral_shoot_cmd(intake_shooter, -0.1));
-        // climberup.whileTrue(new ClimberSetSPeed(climber, 0.3));
-        // climberdown.whileTrue(new ClimberSetSPeed(climber, -0.3));
-        // climberup.whileFalse(new ClimberSetSPeed(climber, 0));
-        // climberdown.whileFalse(new ClimberSetSPeed(climber, 0));
         // algae_intake1.onTrue(new LiftCmd(mlift, 2.59).andThen(new Algae_spin_cmd(intake_shooter, 60)).andThen(new Coral_shoot_cmd(intake_shooter, -0.3)).andThen(new LiftCmd(mlift, 0)));
+        climberup.whileTrue(new ClimberSetSPeed(climber, 0.3));
+        climberdown.whileTrue(new ClimberSetSPeed(climber, -0.3));
+        climberup.whileFalse(new ClimberSetSPeed(climber, 0));
+        climberdown.whileFalse(new ClimberSetSPeed(climber, 0));
+        
         // algae_intake2.onTrue(new LiftCmd(mlift, 1.94).andThen(new Algae_spin_cmd(intake_shooter, 60)).andThen(new Coral_shoot_cmd(intake_shooter, -0.3)).andThen(new LiftCmd(mlift, 0)));
         // algae_intake3.onTrue(new Algae_spin_cmd(intake_shooter, 72).andThen(new Coral_shoot_cmd(intake_shooter, 0.3)).andThen(new Algae_spin_cmd(intake_shooter, 8)));
         // intake.whileTrue(new Coral_intake_cmd(intake_shooter, -0.1));

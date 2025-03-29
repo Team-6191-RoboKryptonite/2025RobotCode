@@ -1,20 +1,19 @@
 package frc.robot.subsystems;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.intake_shooter;;
 
 public class Intake_shooter extends SubsystemBase{
-    final DigitalInput photoSensor = new DigitalInput(8); // 光電感測器
-    final TalonFX CoralIntakeMotor = new TalonFX(12);
+    private final DigitalInput photoSensor = new DigitalInput(intake_shooter.photoSensorPort); // 光電感測器
+    private final TalonFX CoralIntakeMotor = new TalonFX(12);
     final TalonSRX spinMotor = new TalonSRX(13);
     final Encoder encoder = new Encoder(6, 5);
     final PIDController pid = new PIDController(0.1, 0, 0.01);

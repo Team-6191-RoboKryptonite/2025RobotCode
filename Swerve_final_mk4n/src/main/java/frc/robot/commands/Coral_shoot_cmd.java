@@ -20,7 +20,7 @@ public class Coral_shoot_cmd extends Command {
     public void initialize(){
         double pretime = Timer.getFPGATimestamp();
         double nowtime = Timer.getFPGATimestamp();
-        while (nowtime - pretime <= 1.5) {
+        while (nowtime - pretime <= 1) {
             Shooter.setSpeed(speed);
             nowtime = Timer.getFPGATimestamp();
         }

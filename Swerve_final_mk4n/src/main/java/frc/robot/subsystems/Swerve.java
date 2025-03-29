@@ -105,9 +105,9 @@ public class Swerve extends SubsystemBase {
                 (speeds, feedforwards) -> driveRobotRelative(speeds),
                 new PPHolonomicDriveController(
                     // PID constants for translation
-                    new PIDConstants(SmartDashboard.getNumber("AUTO rotation P", 20), 0, 0),
+                    new PIDConstants( 20, 2, 0),
                     // PID constants for rotation
-                    new PIDConstants(SmartDashboard.getNumber("AUTO rotation P", 20), 0, 0)
+                    new PIDConstants(20, 2, 0)
                 ),
                 config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
