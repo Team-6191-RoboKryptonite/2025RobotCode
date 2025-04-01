@@ -16,17 +16,15 @@ public class LiftCmd extends Command {
     public void initialize() {
         double point = lift.getEncoder();
 
-        while (Math.abs(point - setpoint) > 0.2) {
-            point = lift.getEncoder();
-            double speed = lift.getSpeed(point, setpoint);
-            lift.setSpeed(speed);}
-        end(isFinished());
-    }
+            while (Math.abs(point - setpoint) > 0.1 ){
+                point = lift.getEncoder();
+                double speed = lift.getSpeed(point, setpoint);
+                lift.setSpeed(speed);}
+            end(isFinished());
+        }
 
     @Override
-    public void execute() {
-
-    }
+    public void execute() {}
     
     @Override
     public void end(boolean interrupted) {

@@ -5,9 +5,63 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "p1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "up"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "lift_stop"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot_stop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "down"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.9
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "lift_stop"
           }
         }
       ]

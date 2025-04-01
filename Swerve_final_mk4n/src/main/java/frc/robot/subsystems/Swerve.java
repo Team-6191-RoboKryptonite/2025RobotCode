@@ -63,14 +63,14 @@ import com.studica.frc.AHRS.NavXComType;
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
-    // public AHRS gyro;
-    public Pigeon2 gyro;
+    public AHRS gyro;
+    //public Pigeon2 gyro;
     public Constants constants;
     public Field2d field = new Field2d();
 
     public Swerve() {
-        // gyro = new AHRS(NavXComType.kUSB1);
-        gyro = new Pigeon2(30);
+        gyro = new AHRS(NavXComType.kUSB1);
+        //gyro = new Pigeon2(30);
         RobotConfig config = null;
     try{
       config = RobotConfig.fromGUISettings();
@@ -105,9 +105,9 @@ public class Swerve extends SubsystemBase {
                 (speeds, feedforwards) -> driveRobotRelative(speeds),
                 new PPHolonomicDriveController(
                     // PID constants for translation
-                    new PIDConstants( 20, 2, 0),
+                    new PIDConstants(SmartDashboard.getNumber("AUTO rotation P", 20), 0, 0),
                     // PID constants for rotation
-                    new PIDConstants(20, 2, 0)
+                    new PIDConstants(SmartDashboard.getNumber("AUTO rotation P", 20), 0, 0)
                 ),
                 config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
@@ -186,7 +186,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(-gyro.getYaw().getValueAsDouble());
+        return Rotation2d.fromDegrees(-gyro.getYaw());
     }
 
     public void resetModulesToAbsolute(){
